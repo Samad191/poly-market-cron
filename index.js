@@ -357,34 +357,48 @@ const buyPosition = async () => {
     console.log('bid on this market')
     console.log('params', tokenIds[1], buyPrice, Side.BUY, sizeToBuy, 0, tradableMarket.orderPriceMinTickSize, tradableMarket.negRisk);
     console.log('market', tradableMarket.question, tradableMarket.description);
-    console.log('CHALO CHALO =>')
+    console.log('CHALO CHALO NEW =>');
+
+
+    const order = await clobClient.createOrder({
+      tokenID: tokenIds[1],
+      price: buyPrice,
+      side: Side.BUY,
+      size: sizeToBuy,
+      feeRateBps: 0,
+    })
+
+    console.log('order created', order);
+
+  const result = await clobClient.postOrder(order, OrderType.IOC);
+  console.log('Order executedd ✅', result);
 
     // // return;
-    const result = await clobClient.createAndPostOrder(
-      {
-        tokenID: tokenIds[1],
-        price: buyPrice,
-        side: Side.BUY,
-        size: sizeToBuy,
-        feeRateBps: 0,
-      },
-      {
-        tickSize: tradableMarket.orderPriceMinTickSize.toString(),
-        negRisk: tradableMarket.negRisk,
-      },
-      // {
-      //   tokenID: '32503579608775718313575165608728730358646090749209365307778208819511602679949',
-      //   price: 0.97,
-      //   side: Side.BUY,
-      //   size: 2.0619,
-      //   feeRateBps: 0,
-      // },
-      // {
-      //   tickSize: '0.01',
-      //   negRisk: false,
-      // },
-      OrderType.IOC
-    );
+    // const result = await clobClient.createAndPostOrder(
+    //   {
+    //     tokenID: tokenIds[1],
+    //     price: buyPrice,
+    //     side: Side.BUY,
+    //     size: sizeToBuy,
+    //     feeRateBps: 0,
+    //   },
+    //   {
+    //     tickSize: tradableMarket.orderPriceMinTickSize.toString(),
+    //     negRisk: tradableMarket.negRisk,
+    //   },
+    //   // {
+    //   //   tokenID: '32503579608775718313575165608728730358646090749209365307778208819511602679949',
+    //   //   price: 0.97,
+    //   //   side: Side.BUY,
+    //   //   size: 2.0619,
+    //   //   feeRateBps: 0,
+    //   // },
+    //   // {
+    //   //   tickSize: '0.01',
+    //   //   negRisk: false,
+    //   // },
+    //   OrderType.IOC
+    // );
     console.log('Order executedd ✅', result);
 
     // if(result?.err) {
